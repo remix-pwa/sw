@@ -1,15 +1,24 @@
 {
   "name": "sw",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "lib",
+    "types"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Abdur-Rahman Fashola",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^8.38.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
   }
 }
