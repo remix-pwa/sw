@@ -1,8 +1,3 @@
-/**
- * This is contains internal APIs for `sw` modules like `logger` - which is based on
- * Workbox logger
- */
-
 /// <reference lib="WebWorker" />
 
 export type {};
@@ -77,39 +72,39 @@ declare global {
 }
 
 export type LoggerMethods =
-  | "debug"
-  | "info"
-  | "log"
-  | "warn"
-  | "error"
-  | "groupCollapsed"
-  | "groupEnd";
+  | 'debug'
+  | 'info'
+  | 'log'
+  | 'warn'
+  | 'error'
+  | 'groupCollapsed'
+  | 'groupEnd';
 
 export const logger = (
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? null
     : (() => {
-        if (!("__DISABLE_PWA_DEV_LOGS" in self)) {
+        if (!('__DISABLE_PWA_DEV_LOGS' in self)) {
           // @ts-ignore
           self.__DISABLE_PWA_DEV_LOGS = false;
         }
 
-        if (!("__DISABLE_PWA_DEBUG_LOGS" in self)) {
+        if (!('__DISABLE_PWA_DEBUG_LOGS' in self)) {
           //@ts-ignore
           self.__DISABLE_PWA_DEBUG_LOGS = false;
         }
 
-        if (!("__DISABLE_PWA_INFO_LOGS" in self)) {
+        if (!('__DISABLE_PWA_INFO_LOGS' in self)) {
           //@ts-ignore
           self.__DISABLE_PWA_INFO_LOGS = false;
         }
 
-        if (!("__DISABLE_PWA_WARN_LOGS" in self)) {
+        if (!('__DISABLE_PWA_WARN_LOGS' in self)) {
           //@ts-ignore
           self.__DISABLE_PWA_WARN_LOGS = false;
         }
 
-        if (!("__DISABLE_PWA_ERROR_LOGS" in self)) {
+        if (!('__DISABLE_PWA_ERROR_LOGS' in self)) {
           //@ts-ignore
           self.__DISABLE_PWA_ERROR_LOGS = false;
         }
@@ -123,7 +118,7 @@ export const logger = (
           warn: `#f39c12`, // Yellow
           error: `#c0392b`, // Red
           groupCollapsed: `#3498db`, // Blue
-          groupEnd: null, // No colored prefix on groupEnd
+          groupEnd: null // No colored prefix on groupEnd
         };
 
         const print = function (method: LoggerMethods, args: any[]) {
@@ -132,23 +127,23 @@ export const logger = (
             return;
           }
 
-          if (method === "debug" && self.__DISABLE_PWA_DEBUG_LOGS) {
+          if (method === 'debug' && self.__DISABLE_PWA_DEBUG_LOGS) {
             return;
           }
 
-          if (method === "info" && self.__DISABLE_PWA_INFO_LOGS) {
+          if (method === 'info' && self.__DISABLE_PWA_INFO_LOGS) {
             return;
           }
 
-          if (method === "warn" && self.__DISABLE_PWA_WARN_LOGS) {
+          if (method === 'warn' && self.__DISABLE_PWA_WARN_LOGS) {
             return;
           }
 
-          if (method === "error" && self.__DISABLE_PWA_ERROR_LOGS) {
+          if (method === 'error' && self.__DISABLE_PWA_ERROR_LOGS) {
             return;
           }
 
-          if (method === "groupCollapsed") {
+          if (method === 'groupCollapsed') {
             // Safari doesn't print all console.groupCollapsed() arguments:
             // https://bugs.webkit.org/show_bug.cgi?id=182754
             if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
@@ -162,17 +157,17 @@ export const logger = (
             `border-radius: 0.5em`,
             `color: white`,
             `font-weight: bold`,
-            `padding: 2px 0.5em`,
+            `padding: 2px 0.5em`
           ];
 
-          const logPrefix = inGroup ? [] : ["%cremix-pwa", styles.join(";")];
+          const logPrefix = inGroup ? [] : ['%cremix-pwa', styles.join(';')];
 
           console[method](...logPrefix, ...args);
 
-          if (method === "groupCollapsed") {
+          if (method === 'groupCollapsed') {
             inGroup = true;
           }
-          if (method === "groupEnd") {
+          if (method === 'groupEnd') {
             inGroup = false;
           }
         };
