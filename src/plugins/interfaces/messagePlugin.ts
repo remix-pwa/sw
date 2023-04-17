@@ -1,4 +1,4 @@
-import { MessageEnv } from "../../message/types.js";
+import { MessageEnv } from '../../message/types.js';
 
 export interface MessagePlugin {
   messageDidReceive?: (env: MessageEnv) => void;

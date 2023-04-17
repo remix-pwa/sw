@@ -1,5 +1,5 @@
-import { MessagePlugin } from "../plugins/interfaces/messagePlugin.js";
-import { MessageEnv } from "./types.js";
+import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
+import { MessageEnv } from './types.js';
 
 export abstract class MessageHandler {
   plugins: MessagePlugin[];

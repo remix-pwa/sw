@@ -1,6 +1,6 @@
-import { isHttpRequest } from "../core/helper.js";
-import { StrategyPlugin } from "../plugins/interfaces/strategyPlugin.js";
-import { CacheQueryMatchOptions, CacheStrategyOptions } from "./types.js";
+import { isHttpRequest } from '../core/helper.js';
+import { StrategyPlugin } from '../plugins/interfaces/strategyPlugin.js';
+import { CacheQueryMatchOptions, CacheStrategyOptions } from './types.js';
 
 export type StrategyHandlerParams = {
   request: Request;
@@ -18,7 +18,7 @@ export abstract class CacheStrategy {
     cacheName = `cache-v1`,
     isLoader = false,
     plugins = [],
-    matchOptions = {},
+    matchOptions = {}
   }: CacheStrategyOptions) {
     this.cacheName = cacheName;
     this.isLoader = isLoader;
@@ -36,7 +36,7 @@ export abstract class CacheStrategy {
       // throw new Error("The request is not an HTTP request");
 
       // (ShafSpecs) todo: also improve on this
-      return new Response("Not a HTTP request", { status: 403 });
+      return new Response('Not a HTTP request', { status: 403 });
     }
 
     return this._handle(request);

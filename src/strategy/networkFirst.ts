@@ -1,6 +1,6 @@
-import { toError } from "../core/helper.js";
-import { CacheStrategy } from "./strategy.js";
-import { CacheStrategyOptions, FetchListenerEnv } from "./types.js";
+import { toError } from '../core/helper.js';
+import { CacheStrategy } from './strategy.js';
+import { CacheStrategyOptions, FetchListenerEnv } from './types.js';
 
 export interface NetworkFirstOptions extends CacheStrategyOptions {
   networkTimeoutSeconds?: number;
@@ -41,14 +41,14 @@ export class NetworkFirst extends CacheStrategy {
       const cachedResponse = await cache.match(request, this.matchOptions);
 
       if (cachedResponse) {
-        cachedResponse.headers.set("X-Remix-Worker", "yes");
+        cachedResponse.headers.set('X-Remix-Worker', 'yes');
         return cachedResponse;
       }
 
       // throw error;
-      return new Response(JSON.stringify({ message: "Network Error" }), {
+      return new Response(JSON.stringify({ message: 'Network Error' }), {
         status: 500,
-        headers: { "X-Remix-Catch": "yes", "X-Remix-Worker": "yes" },
+        headers: { 'X-Remix-Catch': 'yes', 'X-Remix-Worker': 'yes' }
       });
     }
   }

@@ -1,9 +1,9 @@
-import { toError } from "../core/helper.js";
-import { CacheStrategy } from "./strategy.js";
-import { CacheStrategyOptions, FetchListenerEnv } from "./types.js";
+import { toError } from '../core/helper.js';
+import { CacheStrategy } from './strategy.js';
+import { CacheStrategyOptions, FetchListenerEnv } from './types.js';
 
 export interface NetworkOnlyOptions
-  extends Omit<CacheStrategyOptions, "cacheName" | "matchOptions"> {
+  extends Omit<CacheStrategyOptions, 'cacheName' | 'matchOptions'> {
   networkTimeoutSeconds?: number;
 }
 
@@ -19,7 +19,7 @@ export class NetworkOnly extends CacheStrategy {
   }
 
   override async _handle(request: Request) {
-    if (request.method !== "GET") {
+    if (request.method !== 'GET') {
       return fetch(request);
     }
 
@@ -42,7 +42,7 @@ export class NetworkOnly extends CacheStrategy {
 
       const response = (await Promise.race([
         fetchPromise,
-        timeoutPromise,
+        timeoutPromise
       ])) as Response;
 
       if (response) {
@@ -50,7 +50,7 @@ export class NetworkOnly extends CacheStrategy {
           if (plugin.fetchDidSucceed) {
             await plugin.fetchDidSucceed({
               request,
-              response,
+              response
             });
           }
         }
@@ -59,22 +59,22 @@ export class NetworkOnly extends CacheStrategy {
       }
 
       // Re-thrown error to be caught by `catch` block
-      throw new Error("Network request failed");
+      throw new Error('Network request failed');
     } catch (error) {
       for (const plugin of this.plugins) {
         if (plugin.fetchDidFail) {
           await plugin.fetchDidFail({
             request,
-            error: toError(error),
+            error: toError(error)
           });
         }
       }
 
-      const headers = { "X-Remix-Catch": "yes", "X-Remix-Worker": "yes" };
+      const headers = { 'X-Remix-Catch': 'yes', 'X-Remix-Worker': 'yes' };
 
-      return new Response(JSON.stringify({ message: "Network Error" }), {
+      return new Response(JSON.stringify({ message: 'Network Error' }), {
         status: 500,
-        ...(this.isLoader ? { headers } : {}),
+        ...(this.isLoader ? { headers } : {})
       });
     }
   }

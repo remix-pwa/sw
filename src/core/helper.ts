@@ -1,13 +1,13 @@
 /**
- * Helper functions used across the codebase. 
+ * @fileoverview Helper functions used across the codebase.
  */
 
 export const isHttpRequest = (request: Request): boolean => {
-  return request.url.startsWith("http");
+  return request.url.startsWith('http');
 };
 
 export function isDev(): boolean {
-  return process.env.NODE_ENV === "development";
+  return process.env.NODE_ENV === 'development';
 }
 
 export function toError(error: unknown): Error {

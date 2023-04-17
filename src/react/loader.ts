@@ -32,7 +32,7 @@ export type LoadServiceWorkerOptions = {
 export function loadServiceWorker(
   options: LoadServiceWorkerOptions = {
     scope: '/',
-    serviceWorkerUrl: '/entry.worker.js',
+    serviceWorkerUrl: '/entry.worker.js'
   }
 ) {
   if ('serviceWorker' in navigator) {
@@ -41,32 +41,38 @@ export function loadServiceWorker(
         await navigator.serviceWorker
           //@ts-ignore
           .register(options.serviceWorkerUrl, {
-            scope: options.scope,
+            scope: options.scope
           })
           .then(() => navigator.serviceWorker.ready)
           .then(() => {
-            logger.debug("Syncing manifest...");
+            logger.debug('Syncing manifest...');
             if (navigator.serviceWorker.controller) {
               navigator.serviceWorker.controller.postMessage({
                 type: 'SYNC_REMIX_MANIFEST',
-                manifest: window.__remixManifest,
+                manifest: window.__remixManifest
               });
             } else {
-              navigator.serviceWorker.addEventListener('controllerchange', () => {
-                logger.debug("Syncing manifest...");
-                navigator.serviceWorker.controller?.postMessage({
-                  type: 'SYNC_REMIX_MANIFEST',
-                  manifest: window.__remixManifest,
-                });
-              });
+              navigator.serviceWorker.addEventListener(
+                'controllerchange',
+                () => {
+                  logger.debug('Syncing manifest...');
+                  navigator.serviceWorker.controller?.postMessage({
+                    type: 'SYNC_REMIX_MANIFEST',
+                    manifest: window.__remixManifest
+                  });
+                }
+              );
             }
-          })
+          });
       } catch (error) {
-        logger.error("Service worker registration failed", error);
+        logger.error('Service worker registration failed', error);
       }
     }
 
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    if (
+      document.readyState === 'complete' ||
+      document.readyState === 'interactive'
+    ) {
       register();
     } else {
       window.addEventListener('load', register);

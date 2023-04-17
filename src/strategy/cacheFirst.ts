@@ -1,4 +1,4 @@
-import { CacheStrategy } from "./strategy.js";
+import { CacheStrategy } from './strategy.js';
 
 export class CacheFirst extends CacheStrategy {
   override async _handle(request: Request) {
@@ -12,13 +12,13 @@ export class CacheFirst extends CacheStrategy {
       }
     }
 
-    const headers = { "X-Remix-Catch": "yes", "X-Remix-Worker": "yes" };
+    const headers = { 'X-Remix-Catch': 'yes', 'X-Remix-Worker': 'yes' };
 
     return response
       ? response
-      : new Response("Not found", {
+      : new Response('Not found', {
           status: 404,
-          headers: this.isLoader ? headers : {},
+          headers: this.isLoader ? headers : {}
         });
   }
 
@@ -26,7 +26,7 @@ export class CacheFirst extends CacheStrategy {
     const cache = await caches.open(this.cacheName);
     const cachedResponse = await cache.match(request, {
       ignoreVary: this.matchOptions?.ignoreVary || false,
-      ignoreSearch: this.matchOptions?.ignoreSearch || false,
+      ignoreSearch: this.matchOptions?.ignoreSearch || false
     });
 
     if (cachedResponse) {
@@ -85,11 +85,11 @@ export class CacheFirst extends CacheStrategy {
 
     const cachedResponse = await caches.match(request, {
       ignoreVary: this.matchOptions?.ignoreVary || false,
-      ignoreSearch: this.matchOptions?.ignoreSearch || false,
+      ignoreSearch: this.matchOptions?.ignoreSearch || false
     });
 
     if (cachedResponse) {
-      this.isLoader && cachedResponse.headers.set("X-Remix-Worker", "yes");
+      this.isLoader && cachedResponse.headers.set('X-Remix-Worker', 'yes');
       return cachedResponse;
     }
 
@@ -115,7 +115,7 @@ export class CacheFirst extends CacheStrategy {
           request,
           oldResponse: oldResponse,
           newResponse: response,
-          cacheName: this.cacheName,
+          cacheName: this.cacheName
         });
     }
   }

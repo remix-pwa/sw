@@ -40,7 +40,7 @@ export class RemixMessageHandler extends MessageHandler {
             search = search ? `?${search}` : '';
             let url = location.pathname + search + location.hash;
             if (!cachePromises.has(url)) {
-              logger.log("Caching data for", url);
+              logger.log('Caching data for', url);
               cachePromises.set(
                 url,
                 dataCache.add(url).catch((error) => {

@@ -1,7 +1,7 @@
 // todo: Add more typings to the callbacks. This is quite ugly, I wasn't in the mood for
 // writing all the types for the callbacks. ==TODO==
 
-import { CacheQueryMatchOptions } from "../../strategy/types.js";
+import { CacheQueryMatchOptions } from '../../strategy/types.js';
 
 // Called it strategy plugin, because I want to
 // leave chance for more plugins for other things,
@@ -110,8 +110,8 @@ export declare interface StrategyPlugin {
   // Can be used to implement custom caching logic, for example to delete responses that match a certain pattern (time-based, for example)
   cacheWillExpire?: (options: { cache: Cache }) => Promise<void> | void;
 
-  // Go over a particular cache and clear out all the expired caches/responses 
-  // Shouldn't be called often. Maybe once a day? Something like sync would work with 
+  // Go over a particular cache and clear out all the expired caches/responses
+  // Shouldn't be called often. Maybe once a day? Something like sync would work with
   // this.
   cachesWillExpire?: (options: {
     cacheNames: string[];

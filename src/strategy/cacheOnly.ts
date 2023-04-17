@@ -1,4 +1,4 @@
-import { CacheStrategy } from "./strategy.js";
+import { CacheStrategy } from './strategy.js';
 
 export class CacheOnly extends CacheStrategy {
   override async _handle(request: Request) {
@@ -8,11 +8,11 @@ export class CacheOnly extends CacheStrategy {
 
     if (!response) {
       // throw new Error(`Unable to find response in cache.`);
-      const headers = { "X-Remix-Catch": "yes", "X-Remix-Worker": "yes" };
+      const headers = { 'X-Remix-Catch': 'yes', 'X-Remix-Worker': 'yes' };
 
-      return new Response(JSON.stringify({ message: "Not Found" }), {
+      return new Response(JSON.stringify({ message: 'Not Found' }), {
         status: 404,
-        ...(this.isLoader ? { headers } : {}),
+        ...(this.isLoader ? { headers } : {})
       });
     }
 

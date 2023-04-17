@@ -61,7 +61,10 @@ export function useSWEffect() {
         };
         navigator.serviceWorker.addEventListener('controllerchange', listener);
         return () => {
-          navigator.serviceWorker.removeEventListener('controllerchange', listener);
+          navigator.serviceWorker.removeEventListener(
+            'controllerchange',
+            listener
+          );
         };
       }
     }
