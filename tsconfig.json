@@ -23,6 +23,6 @@
     "noImplicitOverride": true,
     "skipLibCheck": true 
   },
-  "include": ["src/**/*.{ts, js}"],
-  "exclude": ["node_modules", "lib", "types", ".*.js"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "lib", "types"]
 }
