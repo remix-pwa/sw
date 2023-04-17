@@ -18,7 +18,8 @@
   },
   "author": "Abdur-Rahman Fashola",
   "dependencies": {
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "workbox-core": "^6.5.4"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.15.0",
