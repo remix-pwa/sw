@@ -2,7 +2,7 @@
  * Contains global types for this sub-module
  */
 
-import { StrategyPlugin } from '../plugins/strategyPlugin.js';
+import { StrategyPlugin } from '../plugins/interfaces/strategyPlugin.js';
 
 export interface CacheQueryMatchOptions
   extends Omit<CacheQueryOptions, 'cacheName' | 'ignoreMethod'> {}

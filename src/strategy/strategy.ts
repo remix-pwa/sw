@@ -1,5 +1,5 @@
 import { isHttpRequest } from "../core/helper.js";
-import { StrategyPlugin } from "../plugins/strategyPlugin.js";
+import { StrategyPlugin } from "../plugins/interfaces/strategyPlugin.js";
 import { CacheQueryMatchOptions, CacheStrategyOptions } from "./types.js";
 
 export type StrategyHandlerParams = {
