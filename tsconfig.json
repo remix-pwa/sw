@@ -10,7 +10,8 @@
     "lib": ["ES2022", "DOM", "WebWorker"],
     "checkJs": true,
     "declaration": true,
-    "declarationMap": true /* Create sourcemaps for d.ts files. */,
+    "declarationMap": true,
+    "sourceMap": true,
     "declarationDir": "./types",
     "outDir": "./lib",
     "esModuleInterop": true,
@@ -19,9 +20,9 @@
     "noUnusedParameters": true,                    
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,             
+    "noImplicitOverride": true,
     "skipLibCheck": true 
   },
   "include": ["src/**/*.{ts, js}"],
-  "exclude": ["node_modules", "lib", "types"]
+  "exclude": ["node_modules", "lib", "types", ".*.js"]
 }
