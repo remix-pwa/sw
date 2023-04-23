@@ -1,5 +1,5 @@
 {
-  "name": "sw",
+  "name": "@remix-pwa/sw",
   "version": "0.0.1-alpha",
   "description": "",
   "license": "MIT",
