@@ -2,10 +2,6 @@
 // writing all the types for the callbacks. ==TODO==
 
 import { CacheQueryMatchOptions } from '../../strategy/types.js';
-
-// Called it strategy plugin, because I want to
-// leave chance for more plugins for other things,
-// like handling messages or smthg like that. Dunno yet
 export declare interface StrategyPlugin {
   // Called before a request is made to the network or cache.
   // Can be used to modify the request or return a different request, for example.
