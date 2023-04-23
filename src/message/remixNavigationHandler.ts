@@ -1,13 +1,19 @@
 import { logger } from '../core/logger.js';
 import { MessageHandler } from './message.js';
 
-export class RemixMessageHandler extends MessageHandler {
+export class RemixNavigationHandler extends MessageHandler {
   async _handleMessage(
     event: ExtendableMessageEvent,
     state: Record<string, any>
   ): Promise<void> {
     const { data } = event;
-    const { DATA, PAGES } = state['caches'];
+    let DATA, PAGES;
+
+    DATA = 'data-cache';
+    PAGES = 'document-cache';
+
+    if (state['caches']) 
+      ({ DATA, PAGES } = state['caches']);
 
     let cachePromises: Map<string, Promise<void>> = new Map();
 
