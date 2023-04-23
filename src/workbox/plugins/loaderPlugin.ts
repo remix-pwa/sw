@@ -3,12 +3,12 @@ import type {
   HandlerDidErrorCallback,
   CachedResponseWillBeUsedCallbackParam,
   FetchDidSucceedCallback,
-  FetchDidSucceedCallbackParam,
-} from "workbox-core/types.js";
+  FetchDidSucceedCallbackParam
+} from 'workbox-core/types.js';
 
 /* Plugins */
 
-type RemixLoaderPlugin = {
+export type RemixLoaderPlugin = {
   cachedResponseWillBeUsed: CachedResponseWillBeUsedCallback;
   handlerDidError: HandlerDidErrorCallback;
   fetchDidSucceed: FetchDidSucceedCallback;
@@ -18,24 +18,24 @@ type RemixLoaderPlugin = {
 export const remixLoaderPlugin: RemixLoaderPlugin = {
   fetchDidSucceed: async ({ response }: FetchDidSucceedCallbackParam) => {
     // @ts-ignore
-    console.log("manifest", self.__remixManifest);
+    console.log('manifest', self.__remixManifest);
     return response;
   },
   cachedResponseWillBeUsed: async ({
-    cachedResponse,
+    cachedResponse
   }: CachedResponseWillBeUsedCallbackParam) => {
-    cachedResponse?.headers.set("X-Remix-Worker", "yes");
+    cachedResponse?.headers.set('X-Remix-Worker', 'yes');
     return cachedResponse;
   },
   handlerDidError: async () => {
-    return new Response(JSON.stringify({ message: "Network Error" }), {
+    return new Response(JSON.stringify({ message: 'Network Error' }), {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: 'Internal Server Error',
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "X-Remix-Catch": "yes",
-        "X-Remix-Worker": "yes",
-      },
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-Remix-Catch': 'yes',
+        'X-Remix-Worker': 'yes'
+      }
     });
-  },
+  }
 };
