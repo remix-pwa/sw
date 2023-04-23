@@ -4,7 +4,7 @@ import { MessageHandler } from './message.js';
 export class RemixNavigationHandler extends MessageHandler {
   async _handleMessage(
     event: ExtendableMessageEvent,
-    state: Record<string, any>
+    state: Record<string, any> = {}
   ): Promise<void> {
     const { data } = event;
     let DATA, PAGES;

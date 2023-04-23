@@ -17,7 +17,7 @@ export abstract class MessageHandler {
    */
   state: MessageEnv;
 
-  constructor({plugins, state}: MessageHandlerParams) {
+  constructor({ plugins, state }: MessageHandlerParams = {}) {
     this.plugins = plugins || [];
     this.state = state || {};
   }

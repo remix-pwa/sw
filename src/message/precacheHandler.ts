@@ -6,10 +6,16 @@ import { EntryRoute } from '@remix-run/react/dist/routes.js';
 export class PrecacheHandler extends MessageHandler {
   override async _handleMessage(
     event: ExtendableMessageEvent,
-    state: Record<string, any>
+    state: Record<string, any> = {}
   ): Promise<void> {
-    // (ShafSpecs) todo: Get better names plsss
-    const { DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE } = state['caches'];
+    let DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE;
+
+    DATA_CACHE = 'remix-data';
+    DOCUMENT_CACHE = 'remix-document';
+    ASSET_CACHE = 'remix-asset';
+
+    if (state!['caches'] !== undefined)
+      ({ DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE } = state!['caches']);
 
     console.debug('sync manifest');
     const cachePromises: Map<string, Promise<void>> = new Map();
