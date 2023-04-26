@@ -17,7 +17,7 @@ export class PrecacheHandler extends MessageHandler {
     if (state!['caches'] !== undefined)
       ({ DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE } = state!['caches']);
 
-    console.debug('sync manifest');
+    // console.debug('sync manifest');
     const cachePromises: Map<string, Promise<void>> = new Map();
     const [dataCache, documentCache, assetCache] = await Promise.all([
       caches.open(DATA_CACHE),
@@ -29,7 +29,7 @@ export class PrecacheHandler extends MessageHandler {
 
     for (const route of routes) {
       if (route.id.includes('$')) {
-        console.debug('parametrized route', route.id);
+        // console.debug('parametrized route', route.id);
         continue;
       }
 
@@ -67,7 +67,7 @@ export class PrecacheHandler extends MessageHandler {
       cachePromises.set(
         pathname,
         documentCache.add(pathname).catch((error) => {
-          console.debug(`Failed to cache document ${pathname}:`, error);
+          // console.debug(`Failed to cache document ${pathname}:`, error);
         })
       );
     }
@@ -78,11 +78,11 @@ export class PrecacheHandler extends MessageHandler {
       const search = `?${params.toString()}`;
       const url = pathname + search;
       if (!cachePromises.has(url)) {
-        console.debug('Caching data for', url);
+        // console.debug('Caching data for', url);
         cachePromises.set(
           url,
           dataCache.add(url).catch((error) => {
-            console.debug(`Failed to cache data for ${url}:`, error);
+            // console.debug(`Failed to cache data for ${url}:`, error);
           })
         );
       }
@@ -95,7 +95,7 @@ export class PrecacheHandler extends MessageHandler {
 
       console.debug('Caching asset', assetUrl);
       return assetCache.add(assetUrl).catch((error) => {
-        console.debug(`Failed to cache asset ${assetUrl}:`, error);
+        // console.debug(`Failed to cache asset ${assetUrl}:`, error);
       });
     }
 
