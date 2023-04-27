@@ -79,26 +79,27 @@ export const logger = (
   process.env.NODE_ENV === 'production'
     ? null
     : (() => {
-        // Todo: Add a way to disable logs in production.
-        if (('__DISABLE_PWA_DEBUG_LOGS' in self) == false) {
-          self.__DISABLE_PWA_DEBUG_LOGS = false;
-        }
+        // Todo: Add a way to disable logs by default, ig.
+        // This throws an error: `self is not defined`
+        // if (('__DISABLE_PWA_DEBUG_LOGS' in self) == false) {
+        //   self.__DISABLE_PWA_DEBUG_LOGS = false;
+        // }
 
-        if (('__DISABLE_PWA_DEV_LOGS' in self) == false) {
-          self.__DISABLE_PWA_DEV_LOGS = false;
-        }
+        // if (('__DISABLE_PWA_DEV_LOGS' in self) == false) {
+        //   self.__DISABLE_PWA_DEV_LOGS = false;
+        // }
 
-        if (('__DISABLE_PWA_DEBUG_LOGS' in self) == false) {
-          self.__DISABLE_PWA_DEBUG_LOGS = false;
-        }
+        // if (('__DISABLE_PWA_DEBUG_LOGS' in self) == false) {
+        //   self.__DISABLE_PWA_DEBUG_LOGS = false;
+        // }
 
-        if (('__DISABLE_PWA_INFO_LOGS' in self) == false) {
-          self.__DISABLE_PWA_INFO_LOGS = false;
-        }
+        // if (('__DISABLE_PWA_INFO_LOGS' in self) == false) {
+        //   self.__DISABLE_PWA_INFO_LOGS = false;
+        // }
 
-        if (('__DISABLE_PWA_WARN_LOGS' in self) == false) {
-          self.__DISABLE_PWA_WARN_LOGS = false;
-        }
+        // if (('__DISABLE_PWA_WARN_LOGS' in self) == false) {
+        //   self.__DISABLE_PWA_WARN_LOGS = false;
+        // }
 
         let inGroup = false;
 
