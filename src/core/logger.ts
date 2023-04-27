@@ -1,8 +1,3 @@
-/// <reference lib="WebWorker" />
-
-export type {};
-declare let self: ServiceWorkerGlobalScope;
-
 declare global {
   interface WorkerGlobalScope {
     /**
@@ -84,29 +79,25 @@ export const logger = (
   process.env.NODE_ENV === 'production'
     ? null
     : (() => {
-        if (!('__DISABLE_PWA_DEV_LOGS' in self)) {
-          // @ts-ignore
-          self.__DISABLE_PWA_DEV_LOGS = false;
-        }
-
-        if (!('__DISABLE_PWA_DEBUG_LOGS' in self)) {
-          //@ts-ignore
+        // Todo: Add a way to disable logs in production.
+        if (('__DISABLE_PWA_DEBUG_LOGS' in self) == false) {
           self.__DISABLE_PWA_DEBUG_LOGS = false;
         }
 
-        if (!('__DISABLE_PWA_INFO_LOGS' in self)) {
-          //@ts-ignore
+        if (('__DISABLE_PWA_DEV_LOGS' in self) == false) {
+          self.__DISABLE_PWA_DEV_LOGS = false;
+        }
+
+        if (('__DISABLE_PWA_DEBUG_LOGS' in self) == false) {
+          self.__DISABLE_PWA_DEBUG_LOGS = false;
+        }
+
+        if (('__DISABLE_PWA_INFO_LOGS' in self) == false) {
           self.__DISABLE_PWA_INFO_LOGS = false;
         }
 
-        if (!('__DISABLE_PWA_WARN_LOGS' in self)) {
-          //@ts-ignore
+        if (('__DISABLE_PWA_WARN_LOGS' in self) == false) {
           self.__DISABLE_PWA_WARN_LOGS = false;
-        }
-
-        if (!('__DISABLE_PWA_ERROR_LOGS' in self)) {
-          //@ts-ignore
-          self.__DISABLE_PWA_ERROR_LOGS = false;
         }
 
         let inGroup = false;
