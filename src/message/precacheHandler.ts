@@ -67,7 +67,7 @@ export class PrecacheHandler extends MessageHandler {
       cachePromises.set(
         pathname,
         documentCache.add(pathname).catch((error) => {
-          // console.debug(`Failed to cache document ${pathname}:`, error);
+          console.debug(`Failed to cache document ${pathname}:`, error);
         })
       );
     }
@@ -82,7 +82,7 @@ export class PrecacheHandler extends MessageHandler {
         cachePromises.set(
           url,
           dataCache.add(url).catch((error) => {
-            // console.debug(`Failed to cache data for ${url}:`, error);
+            console.debug(`Failed to cache data for ${url}:`, error);
           })
         );
       }
@@ -95,7 +95,7 @@ export class PrecacheHandler extends MessageHandler {
 
       console.debug('Caching asset', assetUrl);
       return assetCache.add(assetUrl).catch((error) => {
-        // console.debug(`Failed to cache asset ${assetUrl}:`, error);
+        console.debug(`Failed to cache asset ${assetUrl}:`, error);
       });
     }
 
