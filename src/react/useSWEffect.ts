@@ -5,7 +5,7 @@ import { useLocation, useMatches } from '@remix-run/react';
  * This hook is used to send navigation events to the service worker.
  * It is to be called in the `root` file of your remix application.
  */
-export function useSWEffect() {
+export function useSWEffect(): void {
   let location = useLocation();
   let matches = useMatches();
   const isMount = React.useRef<boolean>(true);
@@ -18,7 +18,7 @@ export function useSWEffect() {
     return false;
   }
 
-  return React.useEffect(() => {
+  React.useEffect(() => {
     let mounted = isMount.current;
     isMount.current = false;
 
