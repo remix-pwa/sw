@@ -41,4 +41,7 @@ export type { NetworkOnlyOptions } from './strategy/networkOnly';
 
 // workbox
 export { remixLoaderPlugin } from './workbox/plugins/loaderPlugin';
+export { matchAssetRequest, matchDocumentRequest, matchLoaderRequest } from './workbox/main';
+
 export type { RemixLoaderPlugin } from './workbox/plugins/loaderPlugin';
+export type { WorkBoxProps } from './workbox/main';
