@@ -22,7 +22,7 @@ export function isLoaderRequest(request: Request): string | false | null {
 export type MatchResponse = 'loader' | 'document' | 'asset' | null;
 export type MatchRequest = (
   request: Request,
-  assetUrls: string[]
+  assetUrls?: string[]
 ) => MatchResponse;
 
 export const matchRequest: MatchRequest = (
@@ -31,9 +31,9 @@ export const matchRequest: MatchRequest = (
 ): MatchResponse => {
   if (isAssetRequest(request, assetUrls)) {
     return 'asset';
-  } else if (isDocumentRequest(request)) {
-    return 'document';
   } else if (isLoaderRequest(request)) {
+    return 'loader';
+  } else if (isDocumentRequest(request)) {
     return 'loader';
   } else {
     return null;
