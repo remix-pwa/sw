@@ -22,6 +22,12 @@ export abstract class MessageHandler {
     this.state = state || {};
   }
 
+  /**
+   * The method that handles the message event. 
+   * 
+   * Takes in the MessageEvent as a mandatory argument as well as an optional 
+   * object that can be used to pass further information/data. 
+   */
   async handle(event: ExtendableMessageEvent, state: Record<string, any> = {}) {
     await this._handleMessage(event, state);
   }
