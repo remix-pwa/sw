@@ -1,6 +1,6 @@
 {
   "name": "@remix-pwa/sw",
-  "version": "0.0.2-alpha",
+  "version": "0.0.2",
   "author": "Abdur-Rahman Fashola",
   "description": "",
   "private": false,
