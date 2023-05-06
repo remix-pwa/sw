@@ -2,7 +2,7 @@
   "name": "@remix-pwa/sw",
   "version": "0.0.2",
   "author": "Abdur-Rahman Fashola",
-  "description": "",
+  "description": "A Remix PWA package to help you build anything Service Workers in Remix. Complete with extensibility and a little zing 🚀",
   "private": false,
   "license": "MIT",
   "type": "module",
@@ -47,7 +47,9 @@
     "remix",
     "remix-run",
     "pwa",
-    "service-worker",
+    "remix-pwa",
+    "@remix-pwa",
+    "service worker",
     "workbox"
   ]
 }
