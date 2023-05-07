@@ -1,19 +1,40 @@
 import { logger } from '../core/logger.js';
+import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
 import { MessageHandler } from './message.js';
 
+export type RemixNavigationHandlerOptions = {
+  dataCacheName: string;
+  documentCacheName: string;
+  state?: Record<string, any>;
+  plugins?: MessagePlugin[];
+};
+
 export class RemixNavigationHandler extends MessageHandler {
-  async _handleMessage(
+  dataCacheName: string;
+  documentCacheName: string;
+
+  constructor({
+    plugins,
+    dataCacheName,
+    documentCacheName,
+    state
+  }: RemixNavigationHandlerOptions) {
+    super({ plugins, state });
+
+    this.dataCacheName = dataCacheName;
+    this.documentCacheName = documentCacheName;
+    this._handleMessage = this._handleMessage.bind(this);
+  }
+
+  override async _handleMessage(
     event: ExtendableMessageEvent,
     state: Record<string, any> = {}
   ): Promise<void> {
     const { data } = event;
     let DATA, PAGES;
 
-    DATA = 'data-cache';
-    PAGES = 'document-cache';
-
-    if (state['caches']) 
-      ({ DATA, PAGES } = state['caches']);
+    DATA = this.dataCacheName;
+    PAGES = this.documentCacheName;
 
     let cachePromises: Map<string, Promise<void>> = new Map();
 

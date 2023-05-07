@@ -2,20 +2,45 @@ import { AssetsManifest } from '@remix-run/dev';
 import { MessageHandler } from './message.js';
 import { logger } from '../core/logger.js';
 import { EntryRoute } from '@remix-run/react/dist/routes.js';
+import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
+
+export type PrecacheHandlerOptions = {
+  dataCacheName: string;
+  documentCacheName: string;
+  assetCacheName: string;
+  state?: Record<string, any>;
+  plugins?: MessagePlugin[];
+}
 
 export class PrecacheHandler extends MessageHandler {
+  dataCacheName: string;
+  documentCacheName: string;
+  assetCacheName: string;
+
+  constructor({
+    plugins,
+    dataCacheName,
+    documentCacheName,
+    assetCacheName,
+    state
+  }: PrecacheHandlerOptions) {
+    super({ plugins, state });
+
+    this.dataCacheName = dataCacheName;
+    this.documentCacheName = documentCacheName;
+    this.assetCacheName = assetCacheName;
+    this._handleMessage = this._handleMessage.bind(this);
+  }
+
   override async _handleMessage(
     event: ExtendableMessageEvent,
     state: Record<string, any> = {}
   ): Promise<void> {
     let DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE;
 
-    DATA_CACHE = 'remix-data';
-    DOCUMENT_CACHE = 'remix-document';
-    ASSET_CACHE = 'remix-asset';
-
-    if (state!['caches'] !== undefined)
-      ({ DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE } = state!['caches']);
+    DATA_CACHE = this.dataCacheName;
+    DOCUMENT_CACHE = this.documentCacheName;
+    ASSET_CACHE = this.assetCacheName;
 
     // console.debug('sync manifest');
     const cachePromises: Map<string, Promise<void>> = new Map();

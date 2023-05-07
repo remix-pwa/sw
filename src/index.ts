@@ -1,3 +1,4 @@
+import { MessageHandlerParams } from '../types/message/message';
 // core
 export { logger } from './core/logger';
 
@@ -15,6 +16,10 @@ export type { MatchRequest, MatchResponse } from './fetch/match';
 export { MessageHandler } from './message/message';
 export { PrecacheHandler } from './message/precacheHandler';
 export { RemixNavigationHandler } from './message/remixNavigationHandler';
+
+export type { RemixNavigationHandlerOptions } from './message/remixNavigationHandler';
+export type { PrecacheHandlerOptions } from './message/precacheHandler';
+export type { MessageHandlerParams } from './message/message';
 
 export type { MessageEnv } from './message/types';
 
