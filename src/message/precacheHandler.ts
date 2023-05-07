@@ -33,8 +33,7 @@ export class PrecacheHandler extends MessageHandler {
   }
 
   override async _handleMessage(
-    event: ExtendableMessageEvent,
-    state: Record<string, any> = {}
+    event: ExtendableMessageEvent
   ): Promise<void> {
     let DATA_CACHE, DOCUMENT_CACHE, ASSET_CACHE;
 

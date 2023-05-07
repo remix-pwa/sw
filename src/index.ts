@@ -1,4 +1,3 @@
-import { MessageHandlerParams } from '../types/message/message';
 // core
 export { logger } from './core/logger';
 

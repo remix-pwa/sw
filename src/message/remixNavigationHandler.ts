@@ -27,8 +27,7 @@ export class RemixNavigationHandler extends MessageHandler {
   }
 
   override async _handleMessage(
-    event: ExtendableMessageEvent,
-    state: Record<string, any> = {}
+    event: ExtendableMessageEvent
   ): Promise<void> {
     const { data } = event;
     let DATA, PAGES;
