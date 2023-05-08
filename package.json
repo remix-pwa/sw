@@ -11,14 +11,16 @@
     "url": "https://github.com/remix-pwa/sw"
   },
   "main": "./lib/index.js",
+  "bin": "./exec.js",
   "types": "./types/index.d.ts",
   "files": [
     "lib",
     "types"
   ],
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && npm run copy && tsc",
     "clean": "rimraf lib types",
+    "copy": "",
     "format": "prettier --write ./src",
     "prepublishOnly": "npm run build"
   },
