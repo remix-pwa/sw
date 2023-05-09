@@ -1,7 +1,7 @@
 import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
 import { MessageEnv } from './types.js';
 
-export type MessageHandlerParams = {
+export interface MessageHandlerParams {
   plugins?: MessagePlugin[];
   state?: MessageEnv;
 }

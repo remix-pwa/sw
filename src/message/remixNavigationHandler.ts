@@ -1,12 +1,9 @@
 import { logger } from '../core/logger.js';
-import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
-import { MessageHandler } from './message.js';
+import { MessageHandler, MessageHandlerParams } from './message.js';
 
-export type RemixNavigationHandlerOptions = {
+export interface RemixNavigationHandlerOptions extends MessageHandlerParams {
   dataCacheName: string;
   documentCacheName: string;
-  state?: Record<string, any>;
-  plugins?: MessagePlugin[];
 };
 
 export class RemixNavigationHandler extends MessageHandler {

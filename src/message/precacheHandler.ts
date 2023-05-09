@@ -1,15 +1,12 @@
 import { AssetsManifest } from '@remix-run/dev';
-import { MessageHandler } from './message.js';
+import { MessageHandler, MessageHandlerParams } from './message.js';
 import { logger } from '../core/logger.js';
 import { EntryRoute } from '@remix-run/react/dist/routes.js';
-import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
 
-export type PrecacheHandlerOptions = {
+export interface PrecacheHandlerOptions extends MessageHandlerParams {
   dataCacheName: string;
   documentCacheName: string;
   assetCacheName: string;
-  state?: Record<string, any>;
-  plugins?: MessagePlugin[];
 }
 
 export class PrecacheHandler extends MessageHandler {
