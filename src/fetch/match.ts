@@ -34,7 +34,7 @@ export const matchRequest: MatchRequest = (
   } else if (isLoaderRequest(request)) {
     return 'loader';
   } else if (isDocumentRequest(request)) {
-    return 'loader';
+    return 'document';
   } else {
     return null;
   }
