@@ -3,7 +3,7 @@
 /**
  * @fileoverview Supposed to help you avoid typing that long `esbuild` script in your package.json
  * 
- * @todo Implement it so that you pass your worker path, then it will build it in a `${fileName}.js` and run it
+ * @todo Implement it so that you pass your worker path, then it will build it in a `/${fileName}.js` route
  */
 
 if (process.argv.length < 3) {
