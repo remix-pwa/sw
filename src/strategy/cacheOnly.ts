@@ -4,7 +4,10 @@ export class CacheOnly extends CacheStrategy {
   override async _handle(request: Request) {
     const cache = await caches.open(this.cacheName);
 
-    let response = await cache.match(request);
+    let response = await cache.match(request, {
+      ignoreSearch: this.matchOptions?.ignoreSearch ?? false,
+      ignoreVary: this.matchOptions?.ignoreVary ?? false
+    });
 
     if (!response) {
       // throw new Error(`Unable to find response in cache.`);
@@ -20,6 +23,10 @@ export class CacheOnly extends CacheStrategy {
       if (plugin.cacheWillExpire) {
         await plugin.cacheWillExpire({ cache });
       }
+    }
+
+    if (this.isLoader) {
+      response.headers.set('X-Remix-Worker', 'yes');
     }
 
     return response;
