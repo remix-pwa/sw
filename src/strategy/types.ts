@@ -8,7 +8,7 @@ export interface CacheQueryMatchOptions
   extends Omit<CacheQueryOptions, 'cacheName' | 'ignoreMethod'> {}
 
 export interface CacheStrategyOptions {
-  cacheName?: string;
+  cacheName: string;
   plugins?: StrategyPlugin[];
   isLoader?: boolean;
   matchOptions?: CacheQueryMatchOptions;
