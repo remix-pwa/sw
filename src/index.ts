@@ -28,6 +28,7 @@ export type { MessagePlugin } from './plugins/interfaces/messagePlugin';
 
 // react
 export { loadServiceWorker } from './react/loader';
+export { unregisterServiceWorker } from './react/registration'
 export type { LoadServiceWorkerOptions } from './react/loader';
 export { useSWEffect } from './react/useSWEffect';
 
