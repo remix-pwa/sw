@@ -15,7 +15,7 @@ export abstract class CacheStrategy {
 
   // todo: (ShafSpecs) Fix this!
   constructor({
-    cacheName = `cache-v1`,
+    cacheName,
     isLoader = false,
     plugins = [],
     matchOptions = {}
