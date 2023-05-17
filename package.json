@@ -10,12 +10,14 @@
     "type": "git",
     "url": "https://github.com/remix-pwa/sw"
   },
+  "homepage": "https://remix-pwa-docs.vercel.app/sw",
   "main": "./lib/index.js",
   "bin": "./exec.js",
   "types": "./types/index.d.ts",
   "files": [
     "lib",
-    "types"
+    "types",
+    "./exec.js"
   ],
   "scripts": {
     "build": "npm run clean && npm run copy && tsc",
