@@ -57,5 +57,8 @@
     "@remix-pwa",
     "service worker",
     "workbox"
-  ]
+  ],
+  "dependencies": {
+    "esbuild": "^0.17.19"
+  }
 }
