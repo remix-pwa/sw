@@ -24,39 +24,60 @@ export class CacheFirst extends CacheStrategy {
 
   private async getFromCache(request: Request): Promise<Response | null> {
     const cache = await caches.open(this.cacheName);
-    const cachedResponse = await cache.match(request, {
+
+    let cachedResponse = await cache.match(request, {
       ignoreVary: this.matchOptions?.ignoreVary || false,
       ignoreSearch: this.matchOptions?.ignoreSearch || false
     });
 
     if (cachedResponse) {
-      return cachedResponse;
+      let res: Promise<null | Response> = new Promise(() => cachedResponse);
+
+      for (const plugin of this.plugins) {
+        if (plugin.cachedResponseWillBeUsed) {
+          res = plugin.cachedResponseWillBeUsed({
+            cacheName: this.cacheName,
+            request,
+            cachedResponse,
+            matchOptions: this.matchOptions || {}
+          });
+        }
+      }
+
+      return res;
     }
 
     return null;
   }
 
   private async getFromNetwork(request: Request): Promise<Response | null> {
-    try {
-      const response = await fetch(request);
-      if (response && response.status === 200) {
-        for (const plugin of this.plugins) {
-          if (plugin.fetchDidSucceed) {
-            await plugin.fetchDidSucceed({ request, response });
-          }
-        }
+    let req: Request = request.clone();
 
-        return response;
+    for (const plugin of this.plugins) {
+      if (plugin.requestWillFetch) {
+        req = await plugin.requestWillFetch({ request });
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        // logger.error("Error while fetching", request.url, ":", error);
-        return this.handleFetchError(request, error);
-      } else {
-        // logger.error("Error while fetching", request.url, ":", error);
-        const err = error as Error;
-        return this.handleFetchError(request, err);
+    }
+
+    const response = await fetch(req).catch((err) => {
+      for (const plugin of this.plugins) {
+        if (plugin.fetchDidFail) {
+          plugin.fetchDidFail({
+            request,
+            error: err
+          });
+        }
       }
+    });
+
+    if (response) {
+      for (const plugin of this.plugins) {
+        if (plugin.fetchDidSucceed) {
+          await plugin.fetchDidSucceed({ request, response });
+        }
+      }
+
+      return response;
     }
 
     return null;
@@ -68,55 +89,31 @@ export class CacheFirst extends CacheStrategy {
   ): Promise<void> {
     const cache = await caches.open(this.cacheName);
     const oldResponse = await cache.match(request);
-    await cache.put(request, response.clone());
-    await this.removeExpiredEntries(cache);
-    this.notifyCacheUpdated(request, response, oldResponse);
-  }
 
-  private async handleFetchError(
-    request: Request,
-    error: Error
-  ): Promise<Response | null> {
+    let newResponse: Response | null = response.clone();
+
     for (const plugin of this.plugins) {
-      if (plugin.fetchDidFail) {
-        await plugin.fetchDidFail({ request, error });
-      }
-    }
-
-    const cachedResponse = await caches.match(request, {
-      ignoreVary: this.matchOptions?.ignoreVary || false,
-      ignoreSearch: this.matchOptions?.ignoreSearch || false
-    });
-
-    if (cachedResponse) {
-      this.isLoader && cachedResponse.headers.set('X-Remix-Worker', 'yes');
-      return cachedResponse;
-    }
-
-    return null;
-  }
-
-  private async removeExpiredEntries(cache: Cache): Promise<void> {
-    for (const plugin of this.plugins) {
-      if (plugin.cacheWillExpire) {
-        await plugin.cacheWillExpire({ cache });
-      }
-    }
-  }
-
-  private async notifyCacheUpdated(
-    request: Request,
-    response: Response,
-    oldResponse: Response | undefined
-  ): Promise<void> {
-    for (const plugin of this.plugins) {
-      if (plugin.cacheDidUpdate)
-        await plugin.cacheDidUpdate({
-          request,
-          oldResponse: oldResponse,
-          newResponse: response,
-          cacheName: this.cacheName
+      if (plugin.cacheWillUpdate) {
+        newResponse = await plugin.cacheWillUpdate({
+          response,
+          request
         });
+      }
+    }
+
+    if (newResponse) {
+      await cache.put(request, response.clone());
+
+      for (const plugin of this.plugins) {
+        if (plugin.cacheDidUpdate) {
+          plugin.cacheDidUpdate({
+            cacheName: this.cacheName,
+            request,
+            oldResponse,
+            newResponse
+          });
+        }
+      }
     }
   }
 }
