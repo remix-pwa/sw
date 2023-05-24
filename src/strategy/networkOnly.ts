@@ -40,6 +40,14 @@ export class NetworkOnly extends CacheStrategy {
     });
 
     try {
+      for (let plugin of this.plugins) {
+        if (plugin.requestWillFetch) {
+          plugin.requestWillFetch({
+            request
+          });
+        }
+      }
+
       const fetchPromise: Response = await fetcher(request);
 
       const response = (await Promise.race([
