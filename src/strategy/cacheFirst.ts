@@ -98,6 +98,10 @@ export class CacheFirst extends CacheStrategy {
           response,
           request
         });
+
+        if (!newResponse) {
+          break;
+        }
       }
     }
 
