@@ -41,7 +41,7 @@ export abstract class MessageHandler {
   protected async runPlugins(hook: keyof MessagePlugin, env: MessageEnv) {
     for (const plugin of this.plugins) {
       if (plugin[hook]) {
-        await plugin[hook]!(env);
+        plugin[hook]!(env);
       }
     }
   }
