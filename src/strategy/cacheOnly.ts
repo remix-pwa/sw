@@ -17,18 +17,35 @@ export class CacheOnly extends CacheStrategy {
         status: 404,
         ...(this.isLoader ? { headers } : {})
       });
-    }
+    } else {
+      let modifiedResponse: Response | null = response.clone();
 
-    for (const plugin of this.plugins) {
-      if (plugin.cacheWillExpire) {
-        await plugin.cacheWillExpire({ cache });
+      for (const plugin of this.plugins) {
+        if (plugin.cachedResponseWillBeUsed) {
+          modifiedResponse = await plugin.cachedResponseWillBeUsed({
+            cacheName: this.cacheName,
+            matchOptions: this.matchOptions || {},
+            request,
+            cachedResponse: response.clone()
+          });
+        }
       }
-    }
 
-    if (this.isLoader) {
-      response.headers.set('X-Remix-Worker', 'yes');
-    }
+      if (!modifiedResponse) {
+        // throw new Error(`Unable to find response in cache.`);
+        const headers = { 'X-Remix-Catch': 'yes', 'X-Remix-Worker': 'yes' };
 
-    return response;
+        return new Response(JSON.stringify({ message: 'Not Found' }), {
+          status: 404,
+          ...(this.isLoader ? { headers } : {})
+        });
+      }
+
+      if (this.isLoader) {
+        modifiedResponse.headers.set('X-Remix-Worker', 'yes');
+      }
+
+      return modifiedResponse;
+    }
   }
 }
