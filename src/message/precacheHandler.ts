@@ -45,8 +45,9 @@ export class PrecacheHandler extends MessageHandler {
       caches.open(DOCUMENT_CACHE),
       caches.open(ASSET_CACHE)
     ]);
+    
     const manifest: AssetsManifest = event.data.manifest;
-    const routes = Object.values(manifest.routes);
+    const routes = Object.values(manifest?.routes || {});
 
     for (const route of routes) {
       if (route.id.includes('$')) {
