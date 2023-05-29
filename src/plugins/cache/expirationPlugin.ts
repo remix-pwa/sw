@@ -2,7 +2,7 @@ import { logger } from "../../core/logger";
 import { CacheQueryMatchOptions } from "../../strategy/types";
 import { StrategyPlugin } from "../interfaces/strategyPlugin";
 
-class ExpirationPlugin implements StrategyPlugin {
+export class ExpirationPlugin implements StrategyPlugin {
   private readonly maxEntries: number;
   private readonly maxAgeSeconds: number;
 
