@@ -98,11 +98,11 @@ class ExpirationPlugin implements StrategyPlugin {
 
     if (keys.length > this.maxEntries) {
       logger.debug("Cache is full, removing oldest entry");
-      this.removeLRUEntry(options.newResponse, options.cacheName);
+      this.removeLRUEntry(options.cacheName);
     }
   }
 
-  async removeLRUEntry(response: Response, cacheName: string) {
+  async removeLRUEntry(cacheName: string) {
     const cache = await caches.open(cacheName);
 
     const keys = await cache.keys();
