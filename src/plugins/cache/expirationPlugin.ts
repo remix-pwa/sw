@@ -24,6 +24,13 @@ class ExpirationPlugin implements StrategyPlugin {
     const now = Date.now();
 
     const expirationDate = options.cachedResponse.headers.get("X-Expires");
+    const newResponse = options.cachedResponse.clone()
+    const headers = new Headers(newResponse.headers)
+    const modifedResponse = new Response(newResponse.body, {
+      status: newResponse.status,
+      statusText: newResponse.statusText,
+      headers
+    })
 
     if (expirationDate) {
       const elapsedTime = new Date(expirationDate).getTime() - now;
@@ -35,19 +42,19 @@ class ExpirationPlugin implements StrategyPlugin {
         return options.cachedResponse;
       }
 
-      options.cachedResponse.headers.set(
+      modifedResponse.headers.set(
         "X-Access-Time",
         new Date(now).toUTCString()
       );
 
-      return options.cachedResponse;
+      return modifedResponse
     } else {
-      options.cachedResponse.headers.set(
+      modifedResponse.headers.set(
         "X-Access-Time",
         new Date(now).toUTCString()
       );
 
-      return options.cachedResponse;
+      return modifedResponse;
     }
   }
 
@@ -60,12 +67,20 @@ class ExpirationPlugin implements StrategyPlugin {
     console.log("cacheWillUpdate", options.request.url);
 
     let newResponse = options.response.clone();
-    newResponse.headers.set(
+    const headers = new Headers(newResponse.headers)
+
+    const modifedResponse = new Response(newResponse.body, {
+      status: newResponse.status,
+      statusText: newResponse.statusText,
+      headers
+    })
+
+    modifedResponse.headers.set(
       "X-Expires",
       new Date(now + this.maxAgeSeconds * 1_000).toUTCString()
     );
 
-    return newResponse;
+    return modifedResponse;
   }
 
   async cacheDidUpdate(options: {
