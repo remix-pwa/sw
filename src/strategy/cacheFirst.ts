@@ -31,11 +31,11 @@ export class CacheFirst extends CacheStrategy {
     });
 
     if (cachedResponse) {
-      let res: Promise<null | Response> = new Promise(() => cachedResponse);
+      let res: Response | null = cachedResponse
 
       for (const plugin of this.plugins) {
         if (plugin.cachedResponseWillBeUsed) {
-          res = plugin.cachedResponseWillBeUsed({
+          res = await plugin.cachedResponseWillBeUsed({
             cacheName: this.cacheName,
             request,
             cachedResponse,
@@ -106,7 +106,7 @@ export class CacheFirst extends CacheStrategy {
     }
 
     if (newResponse) {
-      await cache.put(request, response.clone());
+      await cache.put(request, newResponse.clone());
 
       for (const plugin of this.plugins) {
         if (plugin.cacheDidUpdate) {

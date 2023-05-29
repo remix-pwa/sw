@@ -26,6 +26,8 @@ export type { MessageEnv } from './message/types';
 export { StrategyPlugin } from './plugins/interfaces/strategyPlugin';
 export type { MessagePlugin } from './plugins/interfaces/messagePlugin';
 
+export { ExpirationPlugin } from './plugins/cache/expirationPlugin';
+
 // react
 export { loadServiceWorker } from './react/loader';
 export { unregisterServiceWorker } from './react/registration'
