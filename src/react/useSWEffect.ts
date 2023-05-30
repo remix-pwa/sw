@@ -12,7 +12,7 @@ export function useSWEffect(): void {
   let matches = useMatches();
 
   function isPromise(p: any): boolean {
-    if (typeof p === 'object' && typeof p.then === 'function') {
+    if (p && typeof p === 'object' && typeof p.then === 'function') {
       return true;
     }
 
