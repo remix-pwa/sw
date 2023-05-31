@@ -1,6 +1,6 @@
 {
   "name": "@remix-pwa/sw",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Abdur-Rahman Fashola",
   "description": "A Remix PWA package to help you build anything Service Workers in Remix. Complete with extensibility and a little zing 🚀",
   "private": false,
@@ -10,18 +10,16 @@
     "url": "https://github.com/remix-pwa/sw"
   },
   "homepage": "https://remix-pwa-docs.vercel.app/sw",
-  "browser": "./browser/index.js",
   "main": "./lib/index.js",
   "bin": "./exec.js",
   "types": "./types/index.d.ts",
   "files": [
     "lib",
-    "browser",
     "types",
     "./exec.js"
   ],
   "scripts": {
-    "build": "npm run clean && npm run copy && run-p build:*",
+    "build": "npm run clean && npm run copy && tsc",
     "build:browser": "tsc -p tsconfig.json --outDir ./browser --module ES2022",
     "build:lib": "tsc -p tsconfig.json --outDir ./lib --module CommonJS",
     "clean": "rimraf lib types",
