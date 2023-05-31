@@ -5,7 +5,6 @@
   "description": "A Remix PWA package to help you build anything Service Workers in Remix. Complete with extensibility and a little zing 🚀",
   "private": false,
   "license": "MIT",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/remix-pwa/sw"
