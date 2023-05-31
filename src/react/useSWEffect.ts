@@ -15,9 +15,36 @@ export function useSWEffect(): void {
     if (typeof p === 'object' && typeof p.then === 'function') {
       return true;
     }
-
     return false;
   }
+
+  function isFunction(p: any): boolean {
+    if(typeof p ==='function') {
+      return true;
+    }
+    return false;
+  }
+
+
+  function filteredMatches(route) {
+   if (route.data) {
+    return (
+      Object.values(route.data).filter(elem => {
+        return isPromise(elem);
+      }).length === 0
+    );
+   }
+   return true;
+}
+
+function sanitizeHandleObject(route) {
+  let handle = route.handle;
+  if (handle) {
+    const filterInvalidTypes = ([, value]) => !isPromise(value) && !isFunction(value);
+    handle = Object.fromEntries(Object.entries(route.handle).filter(filterInvalidTypes));
+  }
+  return { ...route, handle };
+}
 
   React.useEffect(() => {
     let mounted = isMount;
@@ -29,16 +56,7 @@ export function useSWEffect(): void {
           type: 'REMIX_NAVIGATION',
           isMount: mounted,
           location,
-          matches: matches.filter((route) => {
-            if (route.data) {
-              return (
-                Object.values(route.data!).filter((elem) => {
-                  return isPromise(elem);
-                }).length === 0
-              );
-            }
-            return true;
-          }),
+          matches: matches.filter(filteredMatches).map(sanitizeHandleObject),
           manifest: window.__remixManifest
         });
       } else {
@@ -48,16 +66,7 @@ export function useSWEffect(): void {
             type: 'REMIX_NAVIGATION',
             isMount: mounted,
             location,
-            matches: matches.filter((route) => {
-              if (route.data) {
-                return (
-                  Object.values(route.data!).filter((elem) => {
-                    return isPromise(elem);
-                  }).length === 0
-                );
-              }
-              return true;
-            }),
+            matches: matches.filter(filteredMatches).map(sanitizeHandleObject),
             manifest: window.__remixManifest
           });
         };
