@@ -45,7 +45,6 @@ export class RemixNavigationHandler extends MessageHandler {
       ]);
 
       if (!existingDocument || !isMount) {
-        // debug("Caching document for", documentUrl);
         cachePromises.set(
           documentUrl,
           documentCache.add(documentUrl).catch((error) => {
