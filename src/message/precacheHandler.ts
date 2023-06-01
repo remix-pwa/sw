@@ -38,6 +38,10 @@ export class PrecacheHandler extends MessageHandler {
     DOCUMENT_CACHE = this.documentCacheName;
     ASSET_CACHE = this.assetCacheName;
 
+    this.runPlugins('messageDidReceive', {
+      event
+    })
+
     // console.debug('sync manifest');
     const cachePromises: Map<string, Promise<void>> = new Map();
     const [dataCache, documentCache, assetCache] = await Promise.all([
@@ -51,7 +55,7 @@ export class PrecacheHandler extends MessageHandler {
 
     for (const route of routes) {
       if (route.id.includes('$')) {
-        // console.debug('parametrized route', route.id);
+        logger.debug('parametrized route', route.id);
         continue;
       }
 
@@ -100,11 +104,11 @@ export class PrecacheHandler extends MessageHandler {
       const search = `?${params.toString()}`;
       const url = pathname + search;
       if (!cachePromises.has(url)) {
-        // console.debug('Caching data for', url);
+        logger.debug('caching loader data', url);
         cachePromises.set(
           url,
           dataCache.add(url).catch((error) => {
-            console.debug(`Failed to cache data for ${url}:`, error);
+            logger.error(`Failed to cache data for ${url}:`, error);
           })
         );
       }
@@ -117,7 +121,7 @@ export class PrecacheHandler extends MessageHandler {
 
       console.debug('Caching asset', assetUrl);
       return assetCache.add(assetUrl).catch((error) => {
-        console.debug(`Failed to cache asset ${assetUrl}:`, error);
+        logger.error(`Failed to cache asset ${assetUrl}:`, error);
       });
     }
 
