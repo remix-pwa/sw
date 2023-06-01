@@ -28,10 +28,14 @@ export class RemixNavigationHandler extends MessageHandler {
   ): Promise<void> {
     const { data } = event;
     let DATA, PAGES;
-
+    
     DATA = this.dataCacheName;
     PAGES = this.documentCacheName;
-
+    
+    this.runPlugins("messageDidReceive", {
+      event,
+    })
+    
     let cachePromises: Map<string, Promise<void>> = new Map();
 
     if (data.type === 'REMIX_NAVIGATION') {
