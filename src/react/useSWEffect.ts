@@ -1,11 +1,11 @@
 import React from 'react';
-import { useLocation, useMatches } from '@remix-run/react';
+import { RouteMatch, useLocation, useMatches } from '@remix-run/react';
 
 let isMount = true;
 
 /**
  * This hook is used to send navigation events to the service worker.
- * It is to be called in the `root` file of your remix application.
+ * It is to be called in the `root` file of your Remix application.
  */
 export function useSWEffect(): void {
   let location = useLocation();
@@ -26,7 +26,7 @@ export function useSWEffect(): void {
   }
 
 
-  function filteredMatches(route) {
+  function filteredMatches(route: RouteMatch) {
    if (route.data) {
     return (
       Object.values(route.data).filter(elem => {
@@ -37,10 +37,12 @@ export function useSWEffect(): void {
    return true;
 }
 
-function sanitizeHandleObject(route) {
+function sanitizeHandleObject(route: RouteMatch) {
   let handle = route.handle;
+
   if (handle) {
-    const filterInvalidTypes = ([, value]) => !isPromise(value) && !isFunction(value);
+    const filterInvalidTypes = ([, value]: any) => !isPromise(value) && !isFunction(value);
+    //@ts-ignore Seems like typescript had too much fun last night :(
     handle = Object.fromEntries(Object.entries(route.handle).filter(filterInvalidTypes));
   }
   return { ...route, handle };
