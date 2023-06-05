@@ -1,5 +1,6 @@
 import { CacheStrategy } from './strategy.js';
 
+// todo: Should include a way to cache everything at once when the service worker gets loaded
 export class CacheOnly extends CacheStrategy {
   override async _handle(request: Request) {
     const cache = await caches.open(this.cacheName);
