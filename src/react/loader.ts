@@ -65,7 +65,7 @@ export function loadServiceWorker(
             }
           });
       } catch (error) {
-        logger.error('Service worker registration failed', error);
+        console.error('Service worker registration failed', error);
       }
     }
 
