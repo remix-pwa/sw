@@ -28,18 +28,20 @@ export class NetworkFirst extends CacheStrategy {
     } catch (error) {
       let err = toError(error);
 
-     
       const cachedResponse = await cache.match(request, this.matchOptions);
-      if(cachedResponse){
-      const body = cachedResponse.clone().body;
-      const headers = new Headers(cachedResponse.clone().headers);
 
-      const newResponse = new Response(body, {
-        headers: {...headers, 'X-Remix-Worker': 'yes'},
-        status: cachedResponse.status,
-        statusText: cachedResponse.statusText,
-      });
-      return newResponse;
+      if (cachedResponse) {
+        const body = cachedResponse.clone().body;
+        const headers = new Headers(cachedResponse.clone().headers);
+
+        // Safari throws an error if we try to mutate the headers directly
+        const newResponse = new Response(body, {
+          headers: { ...headers, 'X-Remix-Worker': 'yes' },
+          status: cachedResponse.status,
+          statusText: cachedResponse.statusText
+        });
+
+        return newResponse;
       }
 
       // throw error;
@@ -68,7 +70,7 @@ export class NetworkFirst extends CacheStrategy {
 
     const fetcher = this.fetchListenerEnv.state?.fetcher || fetch;
 
-    let updatedRequest = request;
+    let updatedRequest = request.clone();
 
     for (const plugin of this.plugins) {
       if (plugin.requestWillFetch) {
@@ -92,11 +94,11 @@ export class NetworkFirst extends CacheStrategy {
       ? await Promise.race([fetchPromise, timeoutPromise])
       : await fetchPromise;
 
-    // If the fetch was successful, then proceed along else throw an error 
+    // If the fetch was successful, then proceed along else throw an error
     if (response) {
-      // `fetchDidSucceed` performs some changes to response so store it elsewhere 
+      // `fetchDidSucceed` performs some changes to response so store it elsewhere
       // to avoid overtyping original variable
-      let updatedResponse: Response = response;
+      let updatedResponse: Response = response.clone();
 
       for (const plugin of this.plugins) {
         if (plugin.fetchDidSucceed) {
@@ -107,8 +109,8 @@ export class NetworkFirst extends CacheStrategy {
         }
       }
 
-      // `null` can be returned here to avoid caching resourced. Hence store in 
-      // a new variable that can be checked for if null. 
+      // `null` can be returned here to avoid caching resources. Hence store in
+      // a new variable that can be checked for if null.
       let aboutToBeCachedResponse: Response | null = updatedResponse;
 
       for (const plugin of this.plugins) {
