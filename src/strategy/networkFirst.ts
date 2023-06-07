@@ -28,11 +28,18 @@ export class NetworkFirst extends CacheStrategy {
     } catch (error) {
       let err = toError(error);
 
+     
       const cachedResponse = await cache.match(request, this.matchOptions);
+      if(cachedResponse){
+      const body = cachedResponse.clone().body;
+      const headers = new Headers(cachedResponse.clone().headers);
 
-      if (cachedResponse) {
-        cachedResponse.headers.set('X-Remix-Worker', 'yes');
-        return cachedResponse;
+      const newResponse = new Response(body, {
+        headers: {...headers, 'X-Remix-Worker': 'yes'},
+        status: cachedResponse.status,
+        statusText: cachedResponse.statusText,
+      });
+      return newResponse;
       }
 
       // throw error;
