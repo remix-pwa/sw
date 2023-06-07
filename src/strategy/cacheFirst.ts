@@ -31,7 +31,7 @@ export class CacheFirst extends CacheStrategy {
     });
 
     if (cachedResponse) {
-      let res: Response | null = cachedResponse
+      let res: Response | null = cachedResponse.clone();
 
       for (const plugin of this.plugins) {
         if (plugin.cachedResponseWillBeUsed) {
@@ -41,6 +41,10 @@ export class CacheFirst extends CacheStrategy {
             cachedResponse,
             matchOptions: this.matchOptions || {}
           });
+
+          if (!res) {
+            break;
+          }
         }
       }
 
@@ -55,15 +59,15 @@ export class CacheFirst extends CacheStrategy {
 
     for (const plugin of this.plugins) {
       if (plugin.requestWillFetch) {
-        req = await plugin.requestWillFetch({ request });
+        req = await plugin.requestWillFetch({ request: req });
       }
     }
 
-    const response = await fetch(req).catch((err) => {
+    let response = await fetch(req).catch((err) => {
       for (const plugin of this.plugins) {
         if (plugin.fetchDidFail) {
           plugin.fetchDidFail({
-            request,
+            request: req.clone(),
             error: err
           });
         }
@@ -73,7 +77,7 @@ export class CacheFirst extends CacheStrategy {
     if (response) {
       for (const plugin of this.plugins) {
         if (plugin.fetchDidSucceed) {
-          await plugin.fetchDidSucceed({ request, response });
+          response = await plugin.fetchDidSucceed({ request: req, response });
         }
       }
 
@@ -95,7 +99,7 @@ export class CacheFirst extends CacheStrategy {
     for (const plugin of this.plugins) {
       if (plugin.cacheWillUpdate) {
         newResponse = await plugin.cacheWillUpdate({
-          response,
+          response: newResponse.clone(),
           request
         });
 
