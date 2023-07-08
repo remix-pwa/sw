@@ -75,9 +75,31 @@ export type LoggerMethods =
   | 'groupCollapsed'
   | 'groupEnd';
 
+  const methodToColorMap: { [methodName: string]: string | null } = {
+    debug: `#7f8c8d`, // Gray
+    log: `#2ecc71`, // Green
+    info: `#3498db`, // Blue
+    warn: `#f39c12`, // Yellow
+    error: `#c0392b`, // Red
+    groupCollapsed: `#3498db`, // Blue
+    groupEnd: null // No colored prefix on groupEnd
+  };
+
+  const noop = () => {};
+
 export const logger = (
   process.env.NODE_ENV === 'production'
-    ? null
+    ? (() => { // eslint-disable-next-line @typescript-eslint/ban-types
+      const api: { [methodName: string]: Function } = {};
+      const loggerMethods = Object.keys(methodToColorMap);
+
+      for (const key of loggerMethods) {
+        const method = key as LoggerMethods;
+        api[method] = noop;
+      }
+
+      return api as unknown;
+    })()
     : (() => {
         // Todo: Add a way to disable logs by default, ig.
         // This throws an error: `self is not defined`
@@ -102,16 +124,6 @@ export const logger = (
         // }
 
         let inGroup = false;
-
-        const methodToColorMap: { [methodName: string]: string | null } = {
-          debug: `#7f8c8d`, // Gray
-          log: `#2ecc71`, // Green
-          info: `#3498db`, // Blue
-          warn: `#f39c12`, // Yellow
-          error: `#c0392b`, // Red
-          groupCollapsed: `#3498db`, // Blue
-          groupEnd: null // No colored prefix on groupEnd
-        };
 
         const print = function (method: LoggerMethods, args: any[]) {
           // Conditionals to handle various log levels.
