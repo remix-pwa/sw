@@ -12,7 +12,8 @@ export class NetworkOnly extends CacheStrategy {
   private readonly _networkTimeoutSeconds: number;
 
   constructor(options: NetworkOnlyOptions = {}, env?: FetchListenerEnv) {
-    // this is gonna come back and bite me. I need to sort this out quick though
+    // this is gonna come back and bite me. 
+    // I need to sort this out quick though
     //@ts-ignore
     super(options);
 
