@@ -1,5 +1,5 @@
-import { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
-import { MessageEnv } from './types.js';
+import type { MessagePlugin } from '../plugins/interfaces/messagePlugin.js';
+import type { MessageEnv } from './types.js';
 
 export interface MessageHandlerParams {
   plugins?: MessagePlugin[];
@@ -38,6 +38,9 @@ export abstract class MessageHandler {
     state: Record<string, any>
   ): Promise<void> | void;
 
+  /**
+   * Runs the plugins that are passed in when the handler is initialised.
+   */
   protected async runPlugins(hook: keyof MessagePlugin, env: MessageEnv) {
     for (const plugin of this.plugins) {
       if (plugin[hook]) {
