@@ -1,10 +1,11 @@
 import { logger } from '../core/logger.js';
-import { MessageHandler, MessageHandlerParams } from './message.js';
+import { MessageHandler } from './message.js';
+import type { MessageHandlerParams } from './message.js';
 
 export interface RemixNavigationHandlerOptions extends MessageHandlerParams {
   dataCacheName: string;
   documentCacheName: string;
-};
+}
 
 export class RemixNavigationHandler extends MessageHandler {
   dataCacheName: string;
@@ -62,11 +63,15 @@ export class RemixNavigationHandler extends MessageHandler {
           if (manifest.routes[match.id].hasLoader) {
             let params = new URLSearchParams(location.search);
             params.set('_data', match.id);
+
             let search = params.toString();
             search = search ? `?${search}` : '';
+
             let url = location.pathname + search + location.hash;
+
             if (!cachePromises.has(url)) {
-              logger.log('Caching data for', url);
+              logger.debug('Caching data for:', url);
+              
               cachePromises.set(
                 url,
                 dataCache.add(url).catch((error) => {
