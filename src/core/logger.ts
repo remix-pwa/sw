@@ -93,6 +93,12 @@ export const logger = (
       const api: { [methodName: string]: Function } = {};
       const loggerMethods = Object.keys(methodToColorMap);
 
+      self.__DISABLE_PWA_DEBUG_LOGS = true;
+      self.__DISABLE_PWA_DEV_LOGS = true;
+      self.__DISABLE_PWA_INFO_LOGS = true;
+      self.__DISABLE_PWA_WARN_LOGS = true;
+      self.__DISABLE_PWA_ERROR_LOGS = true;
+
       for (const key of loggerMethods) {
         const method = key as LoggerMethods;
         api[method] = noop;
