@@ -17,8 +17,6 @@ export type RemixLoaderPlugin = {
 // Loader Plugin
 export const remixLoaderPlugin: RemixLoaderPlugin = {
   fetchDidSucceed: async ({ response }: FetchDidSucceedCallbackParam) => {
-    // @ts-ignore
-    console.log('manifest', self.__remixManifest);
     return response;
   },
   cachedResponseWillBeUsed: async ({
