@@ -1,6 +1,6 @@
 {
   "name": "@remix-pwa/sw",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": "Abdur-Rahman Fashola",
   "description": "A Remix PWA package to help you build anything Service Workers in Remix. Complete with extensibility and a little zing 🚀",
   "private": false,
