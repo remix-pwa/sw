@@ -9,19 +9,20 @@ declare global {
   }
 }
 
-export type LoadServiceWorkerOptions = {
-  scope?: string;
+export type LoadServiceWorkerOptions = RegistrationOptions & {
   serviceWorkerUrl?: string;
 };
+
 
 /**
  * Load service worker in `entry.client` when the client gets hydrated.
  *
  * All parameters are optional.
  *
- * @param {string} LoadServiceWorkerOptions.scope - Scope of the service worker.
- * @param {string} LoadServiceWorkerOptions.serviceWorkerUrl - URL of the service worker.
- *
+ * @param  options - Options for loading the service worker.
+ * @param  options.serviceWorkerUrl='/entry.worker.js' - URL of the service worker.
+ * @param  ...options.registrationOptions - Options for the service worker registration.
+ * @returns 
  * ```ts
  * loadServiceWorker({
  *  scope: "/",
@@ -30,7 +31,7 @@ export type LoadServiceWorkerOptions = {
  * ```
  */
 export function loadServiceWorker(
-  options: LoadServiceWorkerOptions = {
+  {serviceWorkerUrl, ...options}: LoadServiceWorkerOptions = {
     scope: '/',
     serviceWorkerUrl: '/entry.worker.js'
   }
@@ -40,9 +41,7 @@ export function loadServiceWorker(
       try {
         await navigator.serviceWorker
           //@ts-ignore
-          .register(options.serviceWorkerUrl, {
-            scope: options.scope
-          })
+          .register(serviceWorkerUrl, options)
           .then(() => navigator.serviceWorker.ready)
           .then(() => {
             logger.debug('Syncing manifest...');
