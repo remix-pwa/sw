@@ -36,7 +36,11 @@ export class NetworkFirst extends CacheStrategy {
 
         // Safari throws an error if we try to mutate the headers directly
         const newResponse = new Response(body, {
-          headers: { ...headers, 'X-Remix-Worker': 'yes' },
+          headers: {
+            // Headers are a Map so we need to convert to an object first
+            ...Object.fromEntries(headers.entries()),
+            'X-Remix-Worker': 'yes'
+          },
           status: cachedResponse.status,
           statusText: cachedResponse.statusText
         });

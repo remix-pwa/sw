@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "target": "es2016",            
+    "target": "es2016",
     "useDefineForClassFields": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true, 
+    "resolveJsonModule": true,
     "allowJs": true,
     "module": "ES2022",
     "outDir": "./lib",
-    "lib": ["ES2022", "DOM", "WebWorker"],
+    "lib": ["ES2022", "DOM", "WebWorker", "DOM.Iterable"],
     "checkJs": true,
     "declaration": true,
     "declarationMap": true,
@@ -17,11 +17,11 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noUnusedParameters": true,                    
+    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "skipLibCheck": true 
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "lib", "types"]
