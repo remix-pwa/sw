@@ -22,8 +22,16 @@ export const remixLoaderPlugin: RemixLoaderPlugin = {
   cachedResponseWillBeUsed: async ({
     cachedResponse
   }: CachedResponseWillBeUsedCallbackParam) => {
-    cachedResponse?.headers.set('X-Remix-Worker', 'yes');
-    return cachedResponse;
+    const headers = new Headers(cachedResponse?.clone().headers);
+
+    return new Response(cachedResponse?.clone().body, {
+      status: cachedResponse?.status,
+      statusText: cachedResponse?.statusText,
+      headers: {
+        ...Object.fromEntries(headers),
+        'X-Remix-Worker': 'yes',
+      }
+    })
   },
   handlerDidError: async () => {
     return new Response(JSON.stringify({ message: 'Network Error' }), {
